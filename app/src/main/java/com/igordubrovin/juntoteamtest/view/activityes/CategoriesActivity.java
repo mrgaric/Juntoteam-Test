@@ -1,8 +1,10 @@
 package com.igordubrovin.juntoteamtest.view.activityes;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +15,7 @@ import com.igordubrovin.juntoteamtest.App;
 import com.igordubrovin.juntoteamtest.R;
 import com.igordubrovin.juntoteamtest.adapters.CategoriesAdapter;
 import com.igordubrovin.juntoteamtest.di.component.CategoriesComponent;
+import com.igordubrovin.juntoteamtest.fragments.CategoriesFragment;
 import com.igordubrovin.juntoteamtest.presenter.CategoriesPresenter;
 import com.igordubrovin.juntoteamtest.utils.CategoryItem;
 import com.igordubrovin.juntoteamtest.utils.ProjectConstants;
@@ -37,6 +40,7 @@ public class CategoriesActivity extends MvpActivity<ICategoriesView, CategoriesP
     CategoriesPresenter categoriesPresenter;
     @Inject
     Context context;
+    private CategoriesFragment categoriesFragment;
 
     private CategoriesComponent categoriesComponent = App.getCategoriesComponent();
 
@@ -46,14 +50,26 @@ public class CategoriesActivity extends MvpActivity<ICategoriesView, CategoriesP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
         ButterKnife.bind(this);
+        createCategoriesFragment();
         initToolbar();
-        initRecyclerView();
+        initRecyclerView(savedInstanceState);
     }
 
     @NonNull
     @Override
     public CategoriesPresenter createPresenter() {
         return categoriesPresenter;
+    }
+
+    private void createCategoriesFragment(){
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        categoriesFragment = (CategoriesFragment) supportFragmentManager.findFragmentByTag(ProjectConstants.CATEGORIES_FRAGMENT_TAG);
+        if (categoriesFragment == null) {
+            categoriesFragment = categoriesComponent.getCategoriesFragment();
+            supportFragmentManager.beginTransaction()
+                    .add(categoriesFragment, ProjectConstants.CATEGORIES_FRAGMENT_TAG)
+                    .commit();
+        }
     }
 
     private void initToolbar(){
@@ -66,13 +82,28 @@ public class CategoriesActivity extends MvpActivity<ICategoriesView, CategoriesP
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
     }
 
-    private void initRecyclerView(){
+    private void initRecyclerView(Bundle savedInstanceState){
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvCategories.getContext(), layoutManager.getOrientation());
+        categoriesAdapter.setOnItemClickListener(position -> {
+            CategoryItem categoryItem = categoriesAdapter.getCategoryItems().get(position);
+            String categoryName = categoryItem.getName();
+            String categorySlug = categoryItem.getSlug();
+            getPresenter().setChooseCategory(categoryName, categorySlug);
+            Intent data = new Intent();
+            data.putExtra(ProjectConstants.CATEGORY_NAME, categoryName);
+            data.putExtra(ProjectConstants.CATEGORY_SLUG, categorySlug);
+            setResult(RESULT_OK, data);
+            finish();
+        });
         rvCategories.addItemDecoration(dividerItemDecoration);
         rvCategories.setLayoutManager(layoutManager);
         rvCategories.setAdapter(categoriesAdapter);
-        getCategories();
+        if (savedInstanceState == null) {
+            getCategories();
+        } else {
+            categoriesAdapter.setCategoryItems(categoriesFragment.getCategoryItems());
+        }
     }
 
     private void getCategories(){
@@ -81,6 +112,7 @@ public class CategoriesActivity extends MvpActivity<ICategoriesView, CategoriesP
 
     @Override
     public void showCategories(List<CategoryItem> categoryItems) {
+        categoriesFragment.setCategoryItems(categoryItems);
         categoriesAdapter.setCategoryItems(categoryItems);
     }
 

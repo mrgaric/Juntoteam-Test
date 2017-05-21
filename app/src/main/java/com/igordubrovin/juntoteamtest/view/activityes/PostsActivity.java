@@ -3,6 +3,7 @@ package com.igordubrovin.juntoteamtest.view.activityes;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -13,9 +14,12 @@ import com.igordubrovin.juntoteamtest.App;
 import com.igordubrovin.juntoteamtest.R;
 import com.igordubrovin.juntoteamtest.adapters.PostsAdapter;
 import com.igordubrovin.juntoteamtest.di.component.PostsComponent;
+import com.igordubrovin.juntoteamtest.fragments.CategoriesFragment;
+import com.igordubrovin.juntoteamtest.fragments.PostsFragment;
 import com.igordubrovin.juntoteamtest.presenter.PostsPresenter;
-import com.igordubrovin.juntoteamtest.utils.PostItem;
 import com.igordubrovin.juntoteamtest.utils.ProjectConstants;
+import com.igordubrovin.juntoteamtest.utils.posts.PostItem;
+import com.igordubrovin.juntoteamtest.utils.posts.Posts;
 import com.igordubrovin.juntoteamtest.view.view_interface.IPostsView;
 
 import java.util.List;
@@ -39,6 +43,7 @@ public class PostsActivity extends MvpActivity<IPostsView, PostsPresenter>
     PostsPresenter postsPresenter;
     @Inject
     PostsAdapter postsAdapter;
+    private PostsFragment postsFragment;
 
     private PostsComponent postsComponent = App.getPostsComponent();
     @Override
@@ -47,8 +52,9 @@ public class PostsActivity extends MvpActivity<IPostsView, PostsPresenter>
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posts);
         ButterKnife.bind(this);
+        createPostsFragment();
         initToolbar();
-        initRecyclerView();
+        initRecyclerView(savedInstanceState);
     }
 
     @NonNull
@@ -63,7 +69,19 @@ public class PostsActivity extends MvpActivity<IPostsView, PostsPresenter>
         if (resultCode == RESULT_OK){
             if (requestCode == ProjectConstants.REQUEST_CODE_CATEGORIES_ACTIVITY){
                 showCategory(data.getStringExtra(ProjectConstants.CATEGORY_NAME));
+                getPresenter().getPosts(data.getStringExtra(ProjectConstants.CATEGORY_SLUG));
             }
+        }
+    }
+
+    private void createPostsFragment(){
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        postsFragment = (PostsFragment) supportFragmentManager.findFragmentByTag(ProjectConstants.POSTS_FRAGMENT_TAG);
+        if (postsFragment == null) {
+            postsFragment = postsComponent.getPostsFragment();
+            supportFragmentManager.beginTransaction()
+                    .add(postsFragment, ProjectConstants.POSTS_FRAGMENT_TAG)
+                    .commit();
         }
     }
 
@@ -75,12 +93,18 @@ public class PostsActivity extends MvpActivity<IPostsView, PostsPresenter>
         getCategory();
     }
 
-    private void initRecyclerView(){
+    private void initRecyclerView(Bundle savedInstanceState){
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setReverseLayout(true);
+        postsAdapter.setOnItemClickListener(position -> {
+
+        });
         rvPosts.setLayoutManager(layoutManager);
         rvPosts.setAdapter(postsAdapter);
-        getPosts();
+        if (savedInstanceState == null) {
+            getPosts();
+        } else {
+            postsAdapter.setPostItems(postsFragment.getPostItems());
+        }
     }
 
     private void getPosts(){
@@ -88,7 +112,7 @@ public class PostsActivity extends MvpActivity<IPostsView, PostsPresenter>
     }
 
     private void getCategory(){
-        getPresenter().getCategory();
+        getPresenter().getCategoryName();
     }
 
     @OnClick(R.id.tv_category)
@@ -99,7 +123,8 @@ public class PostsActivity extends MvpActivity<IPostsView, PostsPresenter>
 
     @Override
     public void showPosts(List<PostItem> postItems) {
-        //TODO
+        postsFragment.setPostItems(postItems);
+        postsAdapter.setPostItems(postItems);
     }
 
     @Override

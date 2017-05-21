@@ -3,10 +3,9 @@ package com.igordubrovin.juntoteamtest.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.igordubrovin.juntoteamtest.utils.ProjectConstants;
-
 import javax.inject.Inject;
 
+import static com.igordubrovin.juntoteamtest.utils.ProjectConstants.CATEGORY_SLUG;
 import static com.igordubrovin.juntoteamtest.utils.ProjectConstants.CATEGORY_NAME;
 import static com.igordubrovin.juntoteamtest.utils.ProjectConstants.PREF_FILE;
 
@@ -32,15 +31,30 @@ public class PrefManager {
         return instance;
     }
 
-    public String getCategory() {
+    public String getCategoryName() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE);
         return sharedPreferences.getString(CATEGORY_NAME, null);
     }
 
-    public void saveLogin(String category) {
+    public String getCategorySlug(){
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE);
-        SharedPreferences.Editor edit = sharedPreferences.edit();
+        return sharedPreferences.getString(CATEGORY_SLUG, null);
+    }
+
+    private SharedPreferences.Editor getEditor(){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE);
+        return sharedPreferences.edit();
+    }
+
+    public void saveCategoryName(String category) {
+        SharedPreferences.Editor edit = getEditor();
         edit.putString(CATEGORY_NAME, category);
+        edit.commit();
+    }
+
+    public void saveCategorySlug(String categoryItemName){
+        SharedPreferences.Editor edit = getEditor();
+        edit.putString(CATEGORY_SLUG, categoryItemName);
         edit.commit();
     }
 }

@@ -9,4 +9,5 @@ import com.igordubrovin.juntoteamtest.view.view_interface.ICategoriesView;
 
 public interface ICategoriesPresenter extends MvpPresenter<ICategoriesView> {
     void getCategories();
+    void setChooseCategory(String category, String categoryItemName);
 }

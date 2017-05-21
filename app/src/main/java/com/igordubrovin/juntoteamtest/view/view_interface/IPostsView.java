@@ -1,7 +1,7 @@
 package com.igordubrovin.juntoteamtest.view.view_interface;
 
 import com.hannesdorfmann.mosby3.mvp.MvpView;
-import com.igordubrovin.juntoteamtest.utils.PostItem;
+import com.igordubrovin.juntoteamtest.utils.posts.PostItem;
 
 import java.util.List;
 

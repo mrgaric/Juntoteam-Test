@@ -63,6 +63,12 @@ public class CategoriesPresenter extends MvpBasePresenter<ICategoriesView>
         });
     }
 
+    @Override
+    public void setChooseCategory(String category, String categorySlug) {
+        prefManager.saveCategoryName(category);
+        prefManager.saveCategorySlug(categorySlug);
+    }
+
     private void showCategory(List<CategoryItem> categoryItems){
         if (isViewAttached())
             getView().showCategories(categoryItems);
