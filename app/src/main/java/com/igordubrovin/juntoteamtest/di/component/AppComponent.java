@@ -1,6 +1,7 @@
 package com.igordubrovin.juntoteamtest.di.component;
 
 import com.igordubrovin.juntoteamtest.di.module.AppModule;
+import com.igordubrovin.juntoteamtest.di.module.CategoriesModule;
 import com.igordubrovin.juntoteamtest.di.module.PostsModule;
 
 import javax.inject.Singleton;
@@ -14,4 +15,5 @@ import dagger.Component;
 @Component(modules = AppModule.class)
 public interface AppComponent {
     PostsComponent plusPostComponent(PostsModule postsModule);
+    CategoriesComponent plusCategoriesComponent(CategoriesModule categoriesModule);
 }

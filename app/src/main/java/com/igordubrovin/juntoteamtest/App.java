@@ -3,9 +3,11 @@ package com.igordubrovin.juntoteamtest;
 import android.app.Application;
 
 import com.igordubrovin.juntoteamtest.di.component.AppComponent;
+import com.igordubrovin.juntoteamtest.di.component.CategoriesComponent;
 import com.igordubrovin.juntoteamtest.di.component.DaggerAppComponent;
 import com.igordubrovin.juntoteamtest.di.component.PostsComponent;
 import com.igordubrovin.juntoteamtest.di.module.AppModule;
+import com.igordubrovin.juntoteamtest.di.module.CategoriesModule;
 import com.igordubrovin.juntoteamtest.di.module.PostsModule;
 
 /**
@@ -13,8 +15,9 @@ import com.igordubrovin.juntoteamtest.di.module.PostsModule;
  */
 
 public class App extends Application {
-    private AppComponent appComponent;
-    private PostsComponent postsComponent;
+    private static AppComponent appComponent;
+    private static PostsComponent postsComponent;
+    private static CategoriesComponent categoriesComponent;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -23,13 +26,19 @@ public class App extends Application {
                 .build();
     }
 
-    public AppComponent getGetAppComponent() {
+    public static AppComponent getAppComponent() {
         return appComponent;
     }
 
-    public PostsComponent getPostsComponent(){
+    public static PostsComponent getPostsComponent(){
         if (postsComponent == null)
-            postsComponent = appComponent.plusPostComponent(new PostsModule());
+            postsComponent = getAppComponent().plusPostComponent(new PostsModule());
         return postsComponent;
+    }
+
+    public static CategoriesComponent getCategoriesComponent(){
+        if (categoriesComponent == null)
+            categoriesComponent = getAppComponent().plusCategoriesComponent(new CategoriesModule());
+        return categoriesComponent;
     }
 }

@@ -16,6 +16,7 @@
             android:id="@+id/tv_category"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
     </android.support.v7.widget.Toolbar>
 </android.support.design.widget.AppBarLayout>

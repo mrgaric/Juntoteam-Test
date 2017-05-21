@@ -13,6 +13,8 @@ import com.igordubrovin.juntoteamtest.utils.PostItem;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -23,6 +25,11 @@ import butterknife.ButterKnife;
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHolder> {
 
     private List<PostItem> postItems;
+
+    @Inject
+    PostsAdapter(){
+
+    }
 
     @Override
     public PostsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

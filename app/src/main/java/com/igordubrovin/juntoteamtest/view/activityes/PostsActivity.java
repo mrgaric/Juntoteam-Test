@@ -1,5 +1,6 @@
 package com.igordubrovin.juntoteamtest.view.activityes;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import com.igordubrovin.juntoteamtest.adapters.PostsAdapter;
 import com.igordubrovin.juntoteamtest.di.component.PostsComponent;
 import com.igordubrovin.juntoteamtest.presenter.PostsPresenter;
 import com.igordubrovin.juntoteamtest.utils.PostItem;
+import com.igordubrovin.juntoteamtest.utils.ProjectConstants;
 import com.igordubrovin.juntoteamtest.view.view_interface.IPostsView;
 
 import java.util.List;
@@ -38,8 +40,7 @@ public class PostsActivity extends MvpActivity<IPostsView, PostsPresenter>
     @Inject
     PostsAdapter postsAdapter;
 
-    private PostsComponent postsComponent = ((App)getApplication()).getPostsComponent();
-    String category;
+    private PostsComponent postsComponent = App.getPostsComponent();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         postsComponent.inject(this);
@@ -56,12 +57,22 @@ public class PostsActivity extends MvpActivity<IPostsView, PostsPresenter>
         return postsPresenter;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK){
+            if (requestCode == ProjectConstants.REQUEST_CODE_CATEGORIES_ACTIVITY){
+                showCategory(data.getStringExtra(ProjectConstants.CATEGORY_NAME));
+            }
+        }
+    }
+
     private void initToolbar(){
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
-        tvCategory.setText(category);
+        getCategory();
     }
 
     private void initRecyclerView(){
@@ -76,9 +87,14 @@ public class PostsActivity extends MvpActivity<IPostsView, PostsPresenter>
         getPresenter().getPosts();
     }
 
+    private void getCategory(){
+        getPresenter().getCategory();
+    }
+
     @OnClick(R.id.tv_category)
     void clickTvCategory(){
-        //TODO
+        Intent intent = new Intent(this, CategoriesActivity.class);
+        startActivityForResult(intent, ProjectConstants.REQUEST_CODE_CATEGORIES_ACTIVITY);
     }
 
     @Override
@@ -89,5 +105,10 @@ public class PostsActivity extends MvpActivity<IPostsView, PostsPresenter>
     @Override
     public void showError() {
         //TODO
+    }
+
+    @Override
+    public void showCategory(String category) {
+        tvCategory.setText(category);
     }
 }

@@ -9,4 +9,5 @@ import com.igordubrovin.juntoteamtest.view.view_interface.IPostsView;
 
 public interface IPostsPresenter extends MvpPresenter<IPostsView> {
     void getPosts();
+    void getCategory();
 }
