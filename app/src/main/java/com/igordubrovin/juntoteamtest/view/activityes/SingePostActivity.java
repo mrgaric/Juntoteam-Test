@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -28,6 +29,8 @@ public class SingePostActivity extends AppCompatActivity {
     Button btnGetIt;
     @BindView(R.id.iv_image_post)
     ImageView ivImagePost;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     private String postName;
     private String postDesc;
     private String upVotes;
@@ -53,10 +56,21 @@ public class SingePostActivity extends AppCompatActivity {
         Picasso.with(this)
                 .load(imageUri)
                 .into(ivImagePost);
+        initToolbar();
+    }
+
+    private void initToolbar(){
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(postName);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
     }
 
     @OnClick(R.id.btn_get_it)
-    void clickBtnGetIt(View view){
+    void clickBtnGetIt(){
         Intent intent = new Intent(Intent.ACTION_VIEW, uriPost);
         startActivity(intent);
     }

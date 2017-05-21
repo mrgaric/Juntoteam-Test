@@ -46,14 +46,16 @@ public class AlarmService extends Service {
                     @Override
                     public void onResponse(Call<Posts> call, Response<Posts> response) {
                         if (response.body() != null) {
-                            int difference = numberPosts - response.body().getPosts().size();
-                            if (difference > 0){
+                            int difference = response.body().getPosts().size() - numberPosts;
+                            if (difference != 0){
                                 String title = "New posts";
                                 String contentText;
-                                if (difference > 1)
+                                if (difference == 1)
+                                    contentText = "New post: " + response.body().getPosts().get(0).getName();
+                                else if (difference > 1)
                                      contentText = "Number of new posts: " + difference;
                                 else
-                                    contentText = "New post: " + response.body().getPosts().get(0).getName();
+                                    contentText = "New posts of the day";
                                 createNotification(title, contentText);
                             }
                         }
