@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import static com.igordubrovin.juntoteamtest.utils.ProjectConstants.CATEGORY_SLUG;
 import static com.igordubrovin.juntoteamtest.utils.ProjectConstants.CATEGORY_NAME;
+import static com.igordubrovin.juntoteamtest.utils.ProjectConstants.NUMBER_POSTS;
 import static com.igordubrovin.juntoteamtest.utils.ProjectConstants.PREF_FILE;
 
 /**
@@ -41,6 +42,11 @@ public class PrefManager {
         return sharedPreferences.getString(CATEGORY_SLUG, null);
     }
 
+    public int getNumberPosts(){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(NUMBER_POSTS, 0);
+    }
+
     private SharedPreferences.Editor getEditor(){
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE);
         return sharedPreferences.edit();
@@ -55,6 +61,12 @@ public class PrefManager {
     public void saveCategorySlug(String categoryItemName){
         SharedPreferences.Editor edit = getEditor();
         edit.putString(CATEGORY_SLUG, categoryItemName);
+        edit.commit();
+    }
+
+    public void saveNumberPosts(int number){
+        SharedPreferences.Editor edit = getEditor();
+        edit.putInt(NUMBER_POSTS, number);
         edit.commit();
     }
 }

@@ -11,19 +11,15 @@ import android.widget.TextView;
 
 import com.igordubrovin.juntoteamtest.R;
 import com.igordubrovin.juntoteamtest.interfaces.OnItemClickListener;
-import com.igordubrovin.juntoteamtest.utils.CategoryItem;
 import com.igordubrovin.juntoteamtest.utils.posts.PostItem;
 import com.squareup.picasso.Picasso;
 
-import java.net.URI;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.http.Url;
 
 /**
  * Created by Игорь on 17.05.2017.

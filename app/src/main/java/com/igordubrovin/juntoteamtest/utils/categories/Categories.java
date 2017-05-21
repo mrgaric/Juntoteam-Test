@@ -1,5 +1,5 @@
 
-package com.igordubrovin.juntoteamtest.utils;
+package com.igordubrovin.juntoteamtest.utils.categories;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;

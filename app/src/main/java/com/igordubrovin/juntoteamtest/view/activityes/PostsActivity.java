@@ -87,7 +87,7 @@ public class PostsActivity extends MvpActivity<IPostsView, PostsPresenter>
             if (requestCode == ProjectConstants.REQUEST_CODE_CATEGORIES_ACTIVITY){
                 showCategory(data.getStringExtra(ProjectConstants.CATEGORY_NAME));
                 getPresenter().getPosts(data.getStringExtra(ProjectConstants.CATEGORY_SLUG));
-                srlPosts.setRefreshing(true);
+                setRefreshing(true);
             }
         }
     }
@@ -107,7 +107,12 @@ public class PostsActivity extends MvpActivity<IPostsView, PostsPresenter>
         srlPosts.setOnRefreshListener(this);
         srlPosts.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary);
         if (refreshing)
-            srlPosts.setRefreshing(true);
+            setRefreshing(true);
+    }
+
+    private void setRefreshing(boolean refreshing){
+        this.refreshing = refreshing;
+        srlPosts.setRefreshing(refreshing);
     }
 
     private void initToolbar(){
@@ -151,14 +156,14 @@ public class PostsActivity extends MvpActivity<IPostsView, PostsPresenter>
 
     @Override
     public void showPosts(List<PostItem> postItems) {
-        refreshing = false;
-        srlPosts.setRefreshing(false);
+        setRefreshing(false);
         postsFragment.setPostItems(postItems);
         postsAdapter.setPostItems(postItems);
     }
 
     @Override
     public void showError() {
+        setRefreshing(false);
         Snackbar snackbar = Snackbar.make(findViewById(R.id.posts_activity_root), "Error", BaseTransientBottomBar.LENGTH_SHORT);
         snackbar.getView().setBackgroundColor(ContextCompat.getColor(this, android.R.color.holo_red_dark));
         snackbar.show();

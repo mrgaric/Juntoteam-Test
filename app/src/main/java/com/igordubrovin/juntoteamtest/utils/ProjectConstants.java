@@ -19,5 +19,8 @@ public class ProjectConstants {
     public static final String POST_UP_VOTES = "post_up_votes";
     public static final String POST_IMAGE_URL = "post_image_url";
     public static final String POST_URL_POST = "post_url_post";
+    public static final String CATEGORIES_LOADING = "categories_loading";
+    public static final String NUMBER_POSTS = "number_of_posts";
     public static final int REQUEST_CODE_CATEGORIES_ACTIVITY = 0;
+    public static final int REQUEST_CODE_ALARM_PI = 1;
 }

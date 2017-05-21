@@ -4,8 +4,8 @@ import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
 import com.igordubrovin.juntoteamtest.model.PrefManager;
 import com.igordubrovin.juntoteamtest.model.ProducthuntApi;
 import com.igordubrovin.juntoteamtest.presenter.presenter_interface.ICategoriesPresenter;
-import com.igordubrovin.juntoteamtest.utils.Categories;
-import com.igordubrovin.juntoteamtest.utils.CategoryItem;
+import com.igordubrovin.juntoteamtest.utils.categories.Categories;
+import com.igordubrovin.juntoteamtest.utils.categories.CategoryItem;
 import com.igordubrovin.juntoteamtest.view.view_interface.ICategoriesView;
 
 import java.util.List;

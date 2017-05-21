@@ -30,6 +30,7 @@ public class PostsPresenter extends MvpBasePresenter<IPostsView>
     private ProducthuntApi producthuntApi;
     private String category;
     private List<PostItem> postItems;
+    private Boolean unsuccessful;
 
     @Inject
     PostsPresenter(PrefManager prefManager, ProducthuntApi producthuntApi){
@@ -45,8 +46,13 @@ public class PostsPresenter extends MvpBasePresenter<IPostsView>
             category = null;
         }
         if (postItems != null){
+            prefManager.saveNumberPosts(postItems.size());
             getView().showPosts(postItems);
             postItems = null;
+        }
+        if (unsuccessful != null){
+            getView().showError();
+            unsuccessful = null;
         }
     }
 
@@ -71,7 +77,7 @@ public class PostsPresenter extends MvpBasePresenter<IPostsView>
 
             @Override
             public void onFailure(Call<Posts> call, Throwable t) {
-
+                showError(true);
             }
         });
     }
@@ -82,10 +88,19 @@ public class PostsPresenter extends MvpBasePresenter<IPostsView>
     }
 
     private void showPosts(List<PostItem> postItems){
-        if (isViewAttached())
+        if (isViewAttached()) {
+            prefManager.saveNumberPosts(postItems.size());
             getView().showPosts(postItems);
+        }
         else
             this.postItems = postItems;
+    }
+
+    private void showError(boolean unsuccessful){
+        if (isViewAttached())
+            getView().showError();
+        else
+            this.unsuccessful = unsuccessful;
     }
 
     private void showCategoryName(String category){

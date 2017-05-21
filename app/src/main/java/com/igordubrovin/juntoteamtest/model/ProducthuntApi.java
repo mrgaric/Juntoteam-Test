@@ -1,15 +1,11 @@
 package com.igordubrovin.juntoteamtest.model;
 
-import com.igordubrovin.juntoteamtest.utils.Categories;
-import com.igordubrovin.juntoteamtest.utils.CategoryItem;
+import com.igordubrovin.juntoteamtest.utils.categories.Categories;
 import com.igordubrovin.juntoteamtest.utils.ProjectConstants;
 import com.igordubrovin.juntoteamtest.utils.posts.Posts;
 
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Path;
 

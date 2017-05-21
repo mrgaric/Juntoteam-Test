@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.igordubrovin.juntoteamtest.R;
 import com.igordubrovin.juntoteamtest.interfaces.OnItemClickListener;
-import com.igordubrovin.juntoteamtest.utils.CategoryItem;
+import com.igordubrovin.juntoteamtest.utils.categories.CategoryItem;
 
 import java.util.List;
 
@@ -17,7 +17,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by Ксения on 20.05.2017.
