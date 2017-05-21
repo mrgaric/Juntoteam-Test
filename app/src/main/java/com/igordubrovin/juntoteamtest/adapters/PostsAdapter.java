@@ -68,7 +68,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         notifyDataSetChanged();
     }
 
-    public List<PostItem> getCategoryItems() {
+    public List<PostItem> getPostItems() {
         return postItems;
     }
 

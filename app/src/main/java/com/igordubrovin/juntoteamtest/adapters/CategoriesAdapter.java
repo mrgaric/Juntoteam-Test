@@ -42,7 +42,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
     public void onBindViewHolder(CategoriesViewHolder holder, int position) {
         CategoryItem categoryItem = categoryItems.get(position);
         holder.tvItemCategory.setText(categoryItem.getName());
-      //  holder.tvItemCategory.setBackgroundColor(Color.parseColor(categoryItem.getColor()));
+        holder.tvItemCategory.setTextColor(Color.parseColor(categoryItem.getColor()));
     }
 
     @Override
