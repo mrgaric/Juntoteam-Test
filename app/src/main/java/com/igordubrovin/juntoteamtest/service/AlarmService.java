@@ -50,7 +50,7 @@ public class AlarmService extends Service {
                                 String title = "New posts";
                                 String contentText;
                                 if (difference == 1)
-                                    contentText = "New post: " + response.body().getPosts().get(0).getName();
+                                    contentText = "New post: " + response.body().getPosts().get(response.body().getPosts().size() - 1).getName();
                                 else if (difference > 1)
                                      contentText = "Number of new posts: " + difference;
                                 else

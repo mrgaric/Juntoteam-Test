@@ -104,8 +104,10 @@ public class PostsPresenter extends MvpBasePresenter<IPostsView>
     }
 
     private void showCategoryName(String category){
-        if (category == null)
+        if (category == null) {
             category = ProjectConstants.TECH_CATEGORY;
+            prefManager.saveCategoryName(category);
+        }
         if (isViewAttached()){
             getView().showCategory(category);
         } else {
@@ -137,8 +139,10 @@ public class PostsPresenter extends MvpBasePresenter<IPostsView>
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if (s == null)
+            if (s == null) {
                 s = "tech";
+                prefManager.saveCategorySlug(s);
+            }
             loadPosts(s);
         }
     }
