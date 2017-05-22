@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationManagerCompat;
-import android.util.Log;
 
 import com.igordubrovin.juntoteamtest.App;
 import com.igordubrovin.juntoteamtest.R;
@@ -59,6 +58,7 @@ public class AlarmService extends Service {
                                 createNotification(title, contentText);
                             }
                         }
+                        stopSelf();
                     }
 
                     @Override
@@ -66,7 +66,6 @@ public class AlarmService extends Service {
 
                     }
                 });
-        stopSelf();
         return super.onStartCommand(intent, flags, startId);
     }
 
