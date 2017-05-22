@@ -1,5 +1,6 @@
 package com.igordubrovin.juntoteamtest.view.activityes;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.igordubrovin.juntoteamtest.adapters.PostsAdapter;
 import com.igordubrovin.juntoteamtest.di.component.PostsComponent;
 import com.igordubrovin.juntoteamtest.fragments.PostsFragment;
 import com.igordubrovin.juntoteamtest.presenter.PostsPresenter;
+import com.igordubrovin.juntoteamtest.utils.AlarmHelper;
 import com.igordubrovin.juntoteamtest.utils.ProjectConstants;
 import com.igordubrovin.juntoteamtest.utils.posts.PostItem;
 import com.igordubrovin.juntoteamtest.view.view_interface.IPostsView;
@@ -48,6 +50,8 @@ public class PostsActivity extends MvpActivity<IPostsView, PostsPresenter>
     PostsPresenter postsPresenter;
     @Inject
     PostsAdapter postsAdapter;
+    @Inject
+    Context context;
     private PostsFragment postsFragment;
     private boolean refreshing;
 
@@ -66,6 +70,7 @@ public class PostsActivity extends MvpActivity<IPostsView, PostsPresenter>
         initToolbar();
         initRefresh(refreshing);
         initRecyclerView(savedInstanceState);
+        AlarmHelper.setUpAlarm(context);
     }
 
     @Override
